@@ -67,7 +67,7 @@ public class WorkbookTools {
 	 * @param rowIndex
 	 * @return cell
 	 */
-	public XSSFCell createCell(XSSFWorkbook workbook, int cellIndex, int sheetIndex, int rowIndex) {
+	public XSSFCell createCell(XSSFWorkbook workbook, short cellIndex, short sheetIndex, short rowIndex) {
 		
 		XSSFSheet spreadsheet = workbook.getSheetAt(sheetIndex);
 		XSSFRow row = spreadsheet.createRow(rowIndex);

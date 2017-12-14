@@ -28,7 +28,7 @@ public class Main {
 		
 		ReadSheet.getConsoleDataFromWorkbook("test.xlsx");
 		
-		wbTools.createCell(workbook, 0, 0, 0);
+		wbTools.createCell(workbook,(short) 0, (short) 0, (short) 0);
 		wbTools.saveWorkbookToFile(workbook, "1.xlsx");
 		
 	}
