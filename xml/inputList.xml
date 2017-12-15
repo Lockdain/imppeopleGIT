@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<person>	
+		<firstName>Alex</firstName>
+		<lastName>Sergeenko</lastName>
+		<position>Инженер</position>
+		<phone>99498834</phone>
+	</person>
+	<person>
+		<firstName>Marge</firstName>
+		<lastName>Liz</lastName>
+		<position>Looser</position>
+		<phone>40043</phone>
+	</person>
+</list>
