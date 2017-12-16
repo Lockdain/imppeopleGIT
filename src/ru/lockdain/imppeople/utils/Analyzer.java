@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -32,14 +33,20 @@ public class Analyzer {
 	 * @throws IOException 
 	 * @throws SAXException 
 	 */
-	public Document getDocumentFromXML(String path) throws ParserConfigurationException, SAXException, IOException {
+	static List <String> resultList = new ArrayList<>();
+
+	public Document getDOMDocumentFromXML(String path) throws ParserConfigurationException, SAXException, IOException {
 		
+		Document doc = null;
+		try {
 		DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
 		f.setValidating(false);
-		DocumentBuilder builder = f.newDocumentBuilder();
-		
-		Document doc = builder.parse(new File(path));	
-		
+		DocumentBuilder builder = f.newDocumentBuilder();		
+		doc = builder.parse(new File(path));	
+		}
+		catch (Exception e) {
+			System.out.println("Problems occuried while parsing the file: " + path + " " + e.getMessage());
+		}
 		return doc;
 	}
 	
@@ -47,24 +54,64 @@ public class Analyzer {
 	 * Возвращает перечень значений узлов Position 
 	 * из заданного документа DOM
 	 * @param doc
-	 * @return map
+	 * @return list
 	 */
 	public List getPositionsMap(Document doc) {
-		
+		/**
+		 * Корневой элемент документа
+		 */
+		Element root = doc.getDocumentElement();
+		System.out.println("The root element's name is: " + root.getNodeName());
+	
+		//Считываем узлы
 		List<String> list = new ArrayList<>();
-		//Node node = null;
-		NodeList children = doc.getChildNodes();
+		NodeList children = null;
+	
+		try {
+		children = root.getChildNodes();
+		}
+		catch (Exception e) {
+			System.out.println("ERROR: Problems while trying to getChildNodes from document " + e.getMessage());
+		}
 		
+		System.out.println("getPositionMap: Found " + children.getLength() +" nodes");
+		
+		//Обходим список узлов
 		for(int i = 0; i < children.getLength(); i++) {
 			Node node = children.item(i);
 			
-			if (node.getNodeName().equals("list")){
+			if (node.getNodeName().equals("position")){
 				System.out.println("Found a new position!");
 				list.add(node.getNodeValue());
 			}
 		}
 				
 		return list;
+	}
+	
+	/**
+	 * Рекурсивный обход дерева документа
+	 * с формированием списка всех значений узла данного
+	 * имени на уровне экземпляра класса
+	 * @param node - узел, с которого начинается поиск вглубь
+	 * @param nodeForSearchName - имя узла, значения которого требуется запомнить
+	 * 
+	 */
+	public static void stepThroughDomDoc(Node root, String nodeForSearchName) {
+
+		System.out.println("Recursive search has started: " + root.getNodeName() + "= " + root.getNodeValue());
+		for (Node child = root.getFirstChild(); child != null; child = child.getNextSibling()) {
+			if(child.getNodeName().equals(nodeForSearchName)) {
+				
+				resultList.add(child.getNodeValue());
+				
+			}
+			stepThroughDomDoc(child, nodeForSearchName);
+		}
+	}
+	
+	public List getResultList() {
+		return this.resultList;
 	}
 
 }

@@ -2,6 +2,7 @@ package ru.lockdain.imppeople.test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -43,21 +44,17 @@ public class Main {
 		//Test XML parser
 		//Test node <position> read from file
 		Analyzer analyzer = new Analyzer();
-		Document doc = analyzer.getDocumentFromXML("C:\\Java\\workspace\\imppeople\\xml\\inputList.xml");
-		System.out.println("1111 " + doc.getFirstChild());
+		Document doc = analyzer.getDOMDocumentFromXML("C:\\Java\\workspace\\imppeople\\xml\\inputList.xml");
+		//Рекурсивно идем по дереву документа и ищем значения интересующих узлов
+		analyzer.stepThroughDomDoc(doc.getDocumentElement(), "position");
 		
-		List<String> list = new ArrayList<>();
-		list = analyzer.getPositionsMap(doc);
+		List <String> resultList = new ArrayList<>();
 		
-		Object[] output = list.toArray();
-		System.out.println("OUTPUT length is: " + output.length);
-		System.out.println("list values are: ");
+		resultList = analyzer.getResultList();
 		
-		for(Object me : output) {
-			System.out.println(me.toString());
-			
+		for (String iter : resultList) {
+			System.out.println(iter);
 		}
-		
 	}
 
 }
