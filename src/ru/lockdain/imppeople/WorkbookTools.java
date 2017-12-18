@@ -1,6 +1,8 @@
 package ru.lockdain.imppeople;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.*;
@@ -104,5 +106,25 @@ public class WorkbookTools {
 		System.out.println("INFO: The workbook " + workBookPath + " has been created successfully");
 				
 		}
+	
+	/**
+	 * Нормализует все компоненты входного списка строк
+	 * @param array
+	 * @return array
+	 */
+	public static ArrayList<String> normalizeArrayOfString(ArrayList<String> array) {
+		ArrayList<String> normalizedArray = new ArrayList<>();
+		Iterator<String> iter = array.iterator();
+		
+		//Пройдемся по коллекции
+		while(iter.hasNext()) {
+			
+			normalizedArray.add(iter.next().toString().toLowerCase().replace("/", ""));
+			
+		}
+		return normalizedArray;
+		
+		
+	}
 
 }

@@ -16,7 +16,7 @@ import org.xml.sax.SAXException;
 import ru.lockdain.imppeople.ReadSheet;
 import ru.lockdain.imppeople.WorkbookTools;
 import ru.lockdain.imppeople.WriteSheet;
-import ru.lockdain.imppeople.utils.Analyzer;
+import ru.lockdain.imppeople.utils.XmlAnalyzer;
 import ru.lockdain.imppeople.utils.FileChecker;
 
 public class Main {
@@ -43,7 +43,7 @@ public class Main {
 		
 		//Test XML parser
 		//Test node <position> read from file
-		Analyzer analyzer = new Analyzer();
+		XmlAnalyzer analyzer = new XmlAnalyzer();
 		Document doc = analyzer.getDOMDocumentFromXML("C:\\Java\\workspace\\imppeople\\xml\\inputList.xml");
 		//–екурсивно идем по дереву документа и ищем значени€ интересующих узлов
 		analyzer.stepThroughDomDoc(doc.getDocumentElement(), "position");
@@ -52,9 +52,28 @@ public class Main {
 		
 		resultList = analyzer.getResultList();
 		
+		//¬ывод списка должностей
 		for (String iter : resultList) {
 			System.out.println(iter);
 		}
+		//“ест метода нормализации
+		ArrayList<String> test = new ArrayList<>();
+		test.add("FfffFFfSdFgGH");
+		test.add("ddd//DDDDddSFggE");
+		
+		ArrayList<String> result = new ArrayList<>();
+		
+		result = WorkbookTools.normalizeArrayOfString(test);
+		
+		//¬ывод списка на печать
+		int i = 0;
+		for(String curr : result) {
+			i++;
+			System.out.println(i + " " + curr);
+		}
+		
+		
+		}
 	}
 
-}
+

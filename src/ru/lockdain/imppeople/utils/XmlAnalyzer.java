@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  * @since 14/12/2017
  *
  */
-public class Analyzer {
+public class XmlAnalyzer {
 	/**
 	 * Возвращает корневой документ из указанного XML
 	 * @param path
@@ -97,13 +97,13 @@ public class Analyzer {
 	 * @param nodeForSearchName - имя узла, значения которого требуется запомнить
 	 * 
 	 */
-	public static void stepThroughDomDoc(Node root, String nodeForSearchName) {
+	public void stepThroughDomDoc(Node root, String nodeForSearchName) {
 
 		System.out.println("Recursive search has started: " + root.getNodeName() + "= " + root.getNodeValue());
 		for (Node child = root.getFirstChild(); child != null; child = child.getNextSibling()) {
 			if(child.getNodeName().equals(nodeForSearchName)) {
 				
-				resultList.add(child.getNodeValue());
+				resultList.add(child.getTextContent());
 				
 			}
 			stepThroughDomDoc(child, nodeForSearchName);
