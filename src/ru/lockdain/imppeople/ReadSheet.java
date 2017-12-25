@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -62,6 +63,53 @@ public class ReadSheet {
 		}
 		
 		fis.close();
+		
+		
+	}
+	
+	/**
+	 * Возвращает количество вхождений заданной специальности из XLS-файла
+	 * @param pathToXls
+	 * @return
+	 * @throws IOException 
+	 */
+	@SuppressWarnings("deprecation")
+	public int findTextOccurencesQuantity(String pathToXls, String sheetName, String wordToSearch) throws IOException{
+		
+		ArrayList<String> outputTextArray= new ArrayList<String>();
+		
+		//Работа с файлом таблицы
+		FileInputStream fis = new FileInputStream(new File(pathToXls));
+		XSSFWorkbook workbook = new XSSFWorkbook(fis);
+		XSSFSheet spreadsheet = workbook.getSheet(sheetName);
+		
+		//Проходим итератором по столбцам и строкам таблицы
+		Iterator < Row > rowIterator = spreadsheet.iterator();
+		while(rowIterator.hasNext()) {
+			
+			row = (XSSFRow) rowIterator.next();
+			Iterator <Cell> cellIterator = row.cellIterator();
+			
+			while(cellIterator.hasNext()) {
+				
+				Cell cell = cellIterator.next();
+				
+				//Среди строковых ячеек ищем ту, что подходит под параметр поиска
+				if(cell.getCellType() == Cell.CELL_TYPE_STRING) {
+					
+					if (cell.getStringCellValue().toLowerCase().equals(wordToSearch.toLowerCase())){
+						
+						outputTextArray.add(cell.getStringCellValue().toLowerCase());
+						
+					}
+				}
+			}
+			
+		}
+		
+		fis.close();
+		
+		return outputTextArray.size();
 		
 		
 	}

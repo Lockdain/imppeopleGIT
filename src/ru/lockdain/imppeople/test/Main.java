@@ -72,6 +72,10 @@ public class Main {
 			System.out.println(i + " " + curr);
 		}
 		
+		ReadSheet rs = new ReadSheet();
+		rs.getConsoleDataFromWorkbook("positions_test.xlsx");
+		
+		System.out.println("Ќайден " + rs.findTextOccurencesQuantity("positions_test.xlsx", "Ќомера", "ин∆енер-т≈хнолог"));
 		
 		}
 	}
